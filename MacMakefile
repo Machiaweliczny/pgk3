@@ -21,7 +21,7 @@ default: show
 .cpp.o:
 	${COMPILER} -c ${CFLAGS} $<
 # show - our main(default) task when running "make -f MacMakefile"
-# CPP_TO_COMPILE are dependencies which will be taken care of first with (*) rule
+# CPP_TO_COMPILE are dependencies which will be taken care of first with (*) rule/task
 # Produces EXECUTABLE from main() function by linking assembly code from OBJECTS_TO_LINK
 # More info: http://www.airs.com/blog/archives/38
 # Book: http://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960
