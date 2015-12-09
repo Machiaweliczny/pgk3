@@ -16,7 +16,7 @@ void main()
 {
   vec3 objectColor = texture(ourTexture1, TexCoord).xyz;
   // light color
-  vec3 lightColor = vec3(1.0, 1.0, 1.0);
+  vec3 lightColor = vec3(1.0, 0.8, 0.4);
   // distance to light
   float dist = ViewDistance;
   // ambient light calculation
@@ -37,7 +37,13 @@ void main()
   // ligth attenuation
   float radius = 5.0f;
   float att = clamp(1.0 - dist/radius, 0.0, 1.0); att *= att;
-  // result of both lights applied
+  // exit portal
+  // float eatt = clamp(1.0 - ExitDistance/3.0, 0.0, 1.0); eatt *= eatt;
+  // objectColor += (eatt * vec3(1.0, 0.0, 1.0));
+  if(ExitDistance < 1.0){
+    objectColor += vec3(1.0, 0.0, 1.0);
+  }
+  // result
   vec3 result = (ambient + att * (ambient + diffuse + specular)) * objectColor;
   color = vec4(result, 1.0f);
 }
