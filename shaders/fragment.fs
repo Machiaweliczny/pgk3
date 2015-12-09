@@ -20,18 +20,18 @@ void main()
   // distance to light
   float dist = ViewDistance;
   // ambient light calculation
-  float ambientStrength = 0.2f;
+  float ambientStrength = 0.3f;
   vec3 ambient = ambientStrength * lightColor;
   // calculate diffuse lightning
   vec3 norm = normalize(Normal);
   vec3 lightDir = normalize(LightPos - FragPos);
   float diff = max(dot(norm, lightDir), 0.0);
-  vec3 diffuse = diff * 0.5 * lightColor;
+  vec3 diffuse = diff * 0.3 * lightColor;
   // specular
   vec3 viewPos = LightPos;
   vec3 viewDir = normalize(viewPos - FragPos);
   vec3 reflectDir = reflect(-lightDir, norm);
-  float specularStrength = 0.5f;
+  float specularStrength = 1.0;
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8);
   vec3 specular = specularStrength * spec * lightColor;
   // ligth attenuation
