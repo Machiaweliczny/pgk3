@@ -1,17 +1,32 @@
-CXX=g++
-CFLAGS=-std=c++11 -I/home/anl/include/ -I/home/anl/include/GLFW/
+# Run this with "make -f MacMakefile"
+# More info how "make" works: "man make"
+# and Stackoverflow: http://stackoverflow.com/questions/5098798/could-someone-explain-this-make-file
+COMPILER=g++ # program turning .cpp into .o files # .o - object files(assembly with some metadata)
+CFLAGS=-std=c++11 # flags affecting behavior of COMPILER - in this case c++11 support
+# Sets of libraries(library frameworks) required to compile OpenGL programs on Mac
 MAC_FRAMEWORKS=-framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
-LIBS=-lglfw3 -lGLEW -lpthread ${MAC_FRAMEWORKS}
-PLIKI_FROM=main.o ./common/shader.o
-DO_ZLINKOWNIA=main.o shader.o
-
+# LIBS - Required "shared libraries"
+# -lglfw3 # http://www.glfw.org/
+# -lGLEW # http://glew.sourceforge.net/
+LIBS=-lglfw3 -lGLEW ${MAC_FRAMEWORKS}
+# All cpp files that are required
+CPP_TO_COMPILE=main.o ./common/shader.o
+# Same as CPP_TO_COMPILE but in current directory
+OBJECTS_TO_LINK=main.o shader.o
+# Name of executable file produced
+EXECUTABLE=show
+# Sets show as default task - aka root node in dependency graph
 default: show
-
+# (*) How to compile cpp files into object files that can be linked later
 .cpp.o:
-	${CXX} -c ${CFLAGS} $<
-
-show: ${PLIKI_FROM}
-	${CXX} -L/home/anl/libs/ ${DO_ZLINKOWNIA} -o show  ${COMMON} ${LIBS}
-
+	${COMPILER} -c ${CFLAGS} $<
+# show - our main(default) task when running "make -f MacMakefile"
+# CPP_TO_COMPILE are dependencies which will be taken care of first with (*) rule
+# Produces EXECUTABLE from main() function by linking assembly code from OBJECTS_TO_LINK
+# More info: http://www.airs.com/blog/archives/38
+# Book: http://www.amazon.com/Linkers-Kaufmann-Software-Engineering-Programming/dp/1558604960
+show: ${CPP_TO_COMPILE}
+	${COMPILER} ${OBJECTS_TO_LINK} -o ${EXECUTABLE} ${LIBS}
+# This clean object files and executable with "make -f MacMakefile clean"
 clean:
-	rm *o show
+	rm *o ${EXECUTABLE}
